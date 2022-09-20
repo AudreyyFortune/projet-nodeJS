@@ -24,6 +24,8 @@ export default function DisplayPastries() {
 
     return (
         <div>
+            <h1>Bienvenu chez Backery ! </h1>
+            <h2>Voici la liste de nos différents pâtisseries à gagner</h2>
             {pastries.length >= 0 ? (
                 pastries.map((e, i) => {
                     return <p key={i}>{e.name}</p>

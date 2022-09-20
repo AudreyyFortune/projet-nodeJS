@@ -24,6 +24,7 @@ export default function DisplayDices() {
 
     return (
         <>
+            <h3>Tu veux tenter ta chance au Game Yams ? C'est par ici ...</h3>
             <button onClick={handleFiveDicesGet}>Lancer les dés</button>
             <div>
                 { dicesArray.length > 0 ? dicesArray.map((e, i) => {
