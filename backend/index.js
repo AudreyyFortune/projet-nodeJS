@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import session from 'express-session';
 import path from "path";
 import { fileURLToPath } from "url";
