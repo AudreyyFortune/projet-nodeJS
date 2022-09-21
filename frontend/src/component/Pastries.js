@@ -1,3 +1,4 @@
+import "./../App.css"; 
 import React from "react";
 import { useEffect, useState } from 'react';
 
@@ -28,7 +29,7 @@ export default function DisplayPastries() {
             <h2>Voici la liste de nos différents pâtisseries à gagner</h2>
             {pastries.length >= 0 ? (
                 pastries.map((e, i) => {
-                    return <p key={i}>{e.name}</p>
+                    return <p key={i}>{e.name} ({e.number})</p>
                 })
             ) : 'plus de gâteaux'
             }
