@@ -30,7 +30,7 @@ export default function DisplayPastries() {
                 pastries.map((e, i) => {
                     return <p key={i}>{e.name} ({e.number})</p>
                 })
-            ) : 'plus de gâteaux'
+            ) : 'Zéro Gâteaux .... :('
             }
         </div>
     )

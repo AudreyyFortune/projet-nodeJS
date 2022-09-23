@@ -1,11 +1,10 @@
 import "./App.css"; 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {Home} from './view/Home.js'
-import {Result} from './view/Result.js'
+import { Home } from './view/Home.js'
+import { Result } from './view/Result.js'
 
 function App() {
   
-
   return (
     <>
       <div className='App'>

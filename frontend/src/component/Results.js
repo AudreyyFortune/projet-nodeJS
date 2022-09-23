@@ -24,11 +24,11 @@ export default function DisplayResults() {
     return (
         <div>
             <h1>Page de Résultats du Concours</h1>
-            {results.length >= 0 ? (
+            { results.length >= 0 ? (
                 results.map((e, i) => {
                     return <p key={i}>{e.user} : {e.name} - {e.date} {e.hour}</p>
                 })
-            ) : 'oups'
+                ) : 'oupsi'
             }
         </div>
     )

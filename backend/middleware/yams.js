@@ -69,49 +69,53 @@ export const getFiveDice = async (req, res, next) => {
 
         //user
         let { user } = req.body;
-        console.log('user', user);
 
-        // if (user) {
+        //nombre de pâtisserie
+        let nb = countOccurences(dices).nombre;
 
-            //nombre de pâtisserie
-            let nb = countOccurences(dices).nombre
-            console.log('ici', countOccurences(dices).nombre);
+        // nom pâtisserie
+        let random = Math.floor(Math.random() * 8);
+        let pastry = await PatryModel.find({}).select('name');
 
-            // nom pâtisserie
-            let random = Math.floor(Math.random() * 8);
-            let pastry = await PatryModel.find({}).select('name');
+        // date heure
+        const current = new Date();
+        const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+        const hour = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`;
 
-            // date heure
-            const current = new Date();
-            const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-            const hour = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`;
-            console.log('dt', date, hour)
+        res.status(200).json({ dices: dices, nombre: countOccurences(dices).nombre, message: countOccurences(dices).message, success: true })
 
-            console.log('##########')
+        if (nb > 0) {
+            for (let i = 0; i < nb; i++) {
 
-            res.status(200).json({ dices: dices, nombre: countOccurences(dices).nombre, message: countOccurences(dices).message, success: true })
+                let randomPastry = pastry[random].name;
 
-            if (nb > 0) {
-                for (let i = 0; i < nb; i++) {
-                    console.log('----')
-                    console.log('nom pat : ', pastry[random].name)
-                    console.log('----')
-                    const post = new ResultModel({
-                        user: user,
-                        name: pastry[random].name,
-                        number: nb,
-                        date: date,
-                        hour: hour
-                    });
-                    await post.save();
-                    res.send(post);
-                }
+                let PastryNumber = await PatryModel.find({}).select('number').where('name').equals(randomPastry);
+
+                PatryModel.updateOne({ name: randomPastry }, { number: PastryNumber[0].number - 1 })
+
+                const post = new ResultModel({
+                    user: user,
+                    name: randomPastry,
+                    number: nb,
+                    date: date,
+                    hour: hour
+                });
+                await post.save();
+                res.send(post);
+                
             }
-            else {
-                console.log("je sors")
-            }
-        // }
-
+        }
+        else {
+            const post = new ResultModel({
+                user: user,
+                name: 'pas de pâtisserie de gagné',
+                number: 0,
+                date: date,
+                hour: hour
+            });
+            await post.save();
+            res.send(post);
+        }
         
         // return dices;
     } catch (error) {
