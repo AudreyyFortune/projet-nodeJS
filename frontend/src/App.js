@@ -1,20 +1,20 @@
 import "./App.css"; 
-import DisplayDateTime from './component/DateTime.js'
-import DisplayPastries from './component/Pastries.js'
-import UserBar from './component/UserBar.js';
-import DisplayDices from './component/Dices.js'
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {Home} from './view/Home.js'
+import {Result} from './view/Result.js'
 
 function App() {
-  const [user, setUser] = useState('')
+  
 
   return (
     <>
       <div className='App'>
-        <DisplayDateTime />
-        <DisplayPastries />
-        <UserBar user={user} setUser={setUser} />
-        <DisplayDices />
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Home/>} />
+            <Route path='/results' element={<Result/>} />
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
   )

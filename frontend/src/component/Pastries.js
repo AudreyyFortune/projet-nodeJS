@@ -8,9 +8,8 @@ export default function DisplayPastries() {
     const [pastries, setPastries] = useState({});
 
     const data = async () => {
-        let response = await fetch('http://localhost:3000/');
+        let response = await fetch('http://localhost:8000/');
         let data = await response.json();
-        // console.log(data)
         return data;
     }
 

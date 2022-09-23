@@ -1,5 +1,6 @@
 import express from "express";
 import session from 'express-session';
+import cors from 'cors';
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -17,7 +18,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.set('view engine', 'pug');
+app.use(cors());
 
 // Connexion à la BDD
 connectDB();

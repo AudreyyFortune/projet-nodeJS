@@ -1,3 +1,6 @@
+import { PatryModel } from './../model/Patry.js'; 
+import { ResultModel } from './../model/Result.js';
+
 let i;
 
 // initialisation des 5 dés
@@ -45,13 +48,14 @@ function countOccurences(tab) {
             nb = 3;
             break
         default: // case 1
-            message = "Désolé c'est perdue .... :'(";
+            message = "Désolé c'est perdu .... :'(";
             nb = 0;
     }
 
     const retour = { nombre: nb, message: message }
     return retour;
 }
+
 
 // fonction qui va nous sortir 5 dés
 export const getFiveDice = async (req, res, next) => {    
@@ -61,7 +65,54 @@ export const getFiveDice = async (req, res, next) => {
             fiveDices[i].face = rollSingleDice();
             dices.push(fiveDices[i].face);
         }
-        res.status(200).json({ dices: dices, nombre: countOccurences(dices).nombre, message: countOccurences(dices).message, success: true })
+        
+
+        //user
+        let { user } = req.body;
+        console.log('user', user);
+
+        // if (user) {
+
+            //nombre de pâtisserie
+            let nb = countOccurences(dices).nombre
+            console.log('ici', countOccurences(dices).nombre);
+
+            // nom pâtisserie
+            let random = Math.floor(Math.random() * 8);
+            let pastry = await PatryModel.find({}).select('name');
+
+            // date heure
+            const current = new Date();
+            const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+            const hour = `${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}`;
+            console.log('dt', date, hour)
+
+            console.log('##########')
+
+            res.status(200).json({ dices: dices, nombre: countOccurences(dices).nombre, message: countOccurences(dices).message, success: true })
+
+            if (nb > 0) {
+                for (let i = 0; i < nb; i++) {
+                    console.log('----')
+                    console.log('nom pat : ', pastry[random].name)
+                    console.log('----')
+                    const post = new ResultModel({
+                        user: user,
+                        name: pastry[random].name,
+                        number: nb,
+                        date: date,
+                        hour: hour
+                    });
+                    await post.save();
+                    res.send(post);
+                }
+            }
+            else {
+                console.log("je sors")
+            }
+        // }
+
+        
         // return dices;
     } catch (error) {
         res.status(403) 
